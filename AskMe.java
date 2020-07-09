@@ -1,38 +1,39 @@
+// An improved version of the "Decision Maker"
+// program from chapter 9. This version uses an 
+// enum, rather than interface variables, to 
+// represent the answers.
+
 import java.util.Random;
 
-interface SharedConstants {
-	int NO = 0;
-	int YES = 1;
-	int MAYBE = 2;
-	int LATER = 3;
-	int SOON = 4;
-	int NEVER = 5;
+// An enumeration of the possible answers.
+enum Answers {
+	NO, YES, MAYBE, LATER, SOON, NEVER
 }
 
-class Question implements SharedConstants {
+class Question {
 	Random rand = new Random();
-	int ask() {
+	Answers ask() {
 		int prob = (int) (100 * rand.nextDouble());
-		if(prob < 30)
-			return NO;			// 30%
-		else if(prob < 60)		
-			return YES;			// 30%
-		else if(prob < 75)		
-			return LATER;		// 15%
-		else if(prob < 98)		
-			return SOON;		// 13%
-		else 
-			return NEVER;		// 2%	
+
+		if(prob < 15)
+			return Answers.MAYBE;	// 15%
+		else if(prob < 30)
+			return Answers.NO;		// 15%
+		else if(prob < 60)
+			return Answers.YES;		// 30%
+		else if(prob < 75)
+			return Answers.LATER;	// 15%
+		else if(prob < 98)
+			return Answers.NEVER;	// 2%				
 	}
 }
-
-class AskMe implements SharedConstants {
-	static void answer(int result) {
+class AskMe {
+	static void answer(Answers result) {
 		switch(result) {
 			case NO:
 				System.out.println("NO");
 				break;
-			case YES: 
+			case YES:
 				System.out.println("YES");
 				break;
 			case MAYBE:
@@ -52,7 +53,6 @@ class AskMe implements SharedConstants {
 
 	public static void main(String args[]) {
 		Question q = new Question();
-
 		answer(q.ask());
 		answer(q.ask());
 		answer(q.ask());
